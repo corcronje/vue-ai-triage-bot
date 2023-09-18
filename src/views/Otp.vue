@@ -24,7 +24,10 @@
     <template v-slot:footer>
       <div class="d-flex justify-content-between">
         <router-link to="/otp" class="text-decoration-none">Back</router-link>
-        <router-link to="/otp" class="text-decoration-none">Help me answer this</router-link>
+        <router-link to="/otp" class="text-decoration-none">
+          <font-awesome-icon icon="fa-solid fa-user" />
+          Help me answer this OTP
+        </router-link>
         <router-link to="/otp" class="text-decoration-none">Next</router-link>
       </div>
     </template>

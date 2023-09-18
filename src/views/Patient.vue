@@ -27,13 +27,18 @@
         </a>
       </div>
     </div>
+
     <template v-slot:footer>
       <div class="d-flex justify-content-between">
-        <router-link to="/otp" class="btn btn-link text-decoration-none">Back</router-link>
+        <Button to="/otp" variant="link text-decoration-none">
+          <BackIcon /> Back
+        </Button>
         <router-link to="/otp" class="btn btn-link text-decoration-none">
-          <i class="icon icon-info"></i> Help me answer this
+          <InfoIcon /> Help me answer this
         </router-link>
-        <router-link to="/otp" class="btn btn-secondary text-primary">Next</router-link>
+        <Button to="/symptoms" variant="secondary text-primary">
+          Next <ForwardIcon />
+        </Button>
       </div>
     </template>
   </View>
@@ -41,9 +46,17 @@
 
 <script>
 import View from "../components/View.vue";
+import Button from "../components/Button.vue";
+import BackIcon from "../components/BackIcon.vue";
+import ForwardIcon from "../components/ForwardIcon.vue";
+import InfoIcon from "../components/InfoIcon.vue";
 export default {
   components: {
     View,
+    BackIcon,
+    ForwardIcon,
+    InfoIcon,
+    Button,
   },
   data() {
     return {
