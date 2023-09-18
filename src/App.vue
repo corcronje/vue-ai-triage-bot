@@ -5,18 +5,27 @@
   <main class="flex-grow-1 container-fluid">
     <router-view></router-view>
   </main>
-  <footer class="containter-fluid bg-white border-top mt-5 p-4 text-center text-gray-300">
+  <footer
+    class="containter-fluid bg-white border-top mt-5 p-4 text-center text-gray-300"
+  >
     <span>&copy; Intercare, 2023</span>
   </footer>
 </template>
 
 <script>
+import { useTriageStore } from "./store/triage";
 import Navbar from "./components/Navbar.vue";
 
 export default {
   name: "App",
   components: {
     Navbar,
+  },
+  setup() {
+    const triageStore = useTriageStore();
+    return {
+      triageStore,
+    };
   },
 };
 </script>

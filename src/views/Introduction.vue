@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-10">
       <div class="card">
-        <div class="card-body" style="min-height: 40rem;">
+        <div class="card-body" style="min-height: 40rem">
           <div class="row">
             <div class="col-12 col-md-6">
               <h2>Online Symptom Checker</h2>
@@ -22,10 +22,11 @@
                 Confirm your details, receive and enter your OTP and start your
                 check-up.
               </p>
-              <form class="">
+              <form @submit.prevent="onSubmit()" method="POST">
                 <div class="mb-3">
                   <label for="email" class="visually-hidden">Email</label>
                   <input
+                    v-model="email"
                     type="email"
                     class="form-control"
                     id="email"
@@ -36,7 +37,8 @@
                 <div class="mb-3">
                   <label for="mobile" class="visually-hidden">Mobile</label>
                   <input
-                    type="email"
+                    v-model="mobile"
+                    type="phone"
                     class="form-control"
                     id="mobile"
                     name="mobile"
@@ -46,24 +48,27 @@
                 <h5>How would you like to receive your OTP?</h5>
                 <div class="form-check">
                   <input
+                    v-model="deliveryChannel"
                     class="form-check-input"
                     type="radio"
-                    name="flexRadioDefault"
-                    id="flexRadioDefault1"
+                    name="deliveryChannel"
+                    id="deliveryChannelEmail"
+                    value="email"
                   />
-                  <label class="form-check-label" for="flexRadioDefault1">
+                  <label class="form-check-label" for="deliveryChannelEmail">
                     Email Address
                   </label>
                 </div>
                 <div class="form-check mb-5">
                   <input
+                    v-model="deliveryChannel"
                     class="form-check-input"
                     type="radio"
-                    name="flexRadioDefault"
-                    id="flexRadioDefault2"
-                    checked
+                    name="deliveryChannel"
+                    id="deliveryChannelMobile"
+                    value="mobile"
                   />
-                  <label class="form-check-label" for="flexRadioDefault2">
+                  <label class="form-check-label" for="deliveryChannelMobile">
                     Cellphone Number
                   </label>
                 </div>
@@ -83,7 +88,37 @@
 </template>
 
 <script>
+import Intercare from "@/services/intercare";
+import { useTriageStore } from "@/store/triage";
 export default {
   name: "Introduction",
+  data() {
+    return {
+      email: "",
+      mobile: "",
+      deliveryChannel: "email",
+    };
+  },
+  methods: {
+    onSubmit() {
+      Intercare.sendOtp(this.email, "email")
+        .then((result) => {
+          const store = useTriageStore();
+          store.setPatient({
+            email: this.email,
+            mobile: this.mobile,
+          });
+          store.setOtp({
+            id: result,
+            deliveryChannel: this.deliveryChannel,
+            validated: false
+          });
+          this.$router.push("/otp/" + result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
